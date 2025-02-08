@@ -5,10 +5,12 @@ import { Product } from "../../../../types/products";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 
+// Define the props interface
 interface ProductPageProps {
-  params: { slug: string };
+  params: { slug: string }; // `params` is an object, not a Promise
 }
 
+// Fetch product data from Sanity
 async function getProduct(slug: string): Promise<Product> {
   return client.fetch(
     groq`
@@ -30,10 +32,12 @@ async function getProduct(slug: string): Promise<Product> {
   );
 }
 
+// Product detail page component
 export default async function ProductDetail({ params }: ProductPageProps) {
-  const { slug } = params;
+  const { slug } = params; // Destructure `slug` directly from `params`
   const product = await getProduct(slug);
 
+  // Handle case where product is not found
   if (!product) {
     return <div>Product not found</div>;
   }
