@@ -69,6 +69,13 @@ export default function ProductDetail() {
       fetchProduct();
     }
   }, [slug]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !product) {
+    return <div>Error: {error || "Product not found"}</div>;
+  }
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
       <div className="flex max-w-4xl w-full">
