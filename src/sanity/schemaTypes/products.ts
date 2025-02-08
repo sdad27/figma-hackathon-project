@@ -37,6 +37,9 @@ export const productSchema = defineType({
         name: "image",
         title: "Product Image",
         type: "image",
+        options: {
+          hotspot: true,
+        },
       },
       {
         name: "category",

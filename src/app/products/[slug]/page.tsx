@@ -27,19 +27,16 @@ async function getProduct(slug: string): Promise<Product> {
   );
 }
 
-// Product detail page component
-export default async function ProductDetail({
-  params,
-}: {
+// Define the expected props for the page component
+type PageProps = {
   params: { slug: string };
-}) {
-  // Destructure `slug` from `params`
-  const { slug } = params;
+};
 
-  // Fetch the product using the `slug`
+// Product detail page component
+export default async function ProductDetail({ params }: PageProps) {
+  const { slug } = params;
   const product = await getProduct(slug);
 
-  // Handle case where product is not found
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -55,6 +52,7 @@ export default async function ProductDetail({
               alt={product.title}
               width={400}
               height={400}
+              style={{ objectFit: "cover" }} // Fix legacy prop warning
             />
           )}
         </div>

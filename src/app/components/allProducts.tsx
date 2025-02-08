@@ -30,7 +30,7 @@ export default function AllProduct() {
                     products.map((product) => (
                       <li key={product._id}>
                         <div className="card">
-                          <Link href={`/products/${product.slug.current}`}>
+                          <Link href={`/product/${product.slug.current}`}>
                               <div className="imageBody">
                               {
                                 product.image && (
