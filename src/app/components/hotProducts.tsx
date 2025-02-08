@@ -1,66 +1,65 @@
 import Image from "next/image";
+// import exp1 from "../../../public/explore1.png";
+// import exp2 from "../../../public/explore2.png";
+// import exp3 from "../../../public/explore3.png";
+// import exp4 from "../../../public/explore4.png";
+// import exp5 from "../../../public/explore5.png";
+import { client } from "@/sanity/lib/client";
 
-export default function HotProduct() {
+async function getData() {
+    const fetchData = await client.fetch(`*[_type == "explore"]{
+        "image1": image1.asset->url,
+        "image2": image2.asset->url,
+        "image3": image3.asset->url,
+        "image4": image4.asset->url,
+        "image5": image5.asset->url
+        
+  }`);
+    return fetchData;
+  }
+
+export default async function HotProduct() {
+    const data = await getData();
   return (
-    <header className="container mx-auto px-4 py-12 lg:py-16">
-      <div className="relative grid grid-cols-1 gap-8 md:grid-cols-[auto_1fr]">
-        <div className="writing-mode-vertical hidden text-xl font-medium tracking-wider text-zinc-900 md:block pt-6">
-          EXPLORE NEW AND POPULAR STYLES
+<div className="explore-section">
+        <div className="explore-layout">
+            <div className="side-texts">EXPLORE NEW AND POPULAR STYLES</div>
         </div>
-        <div className="text-xl font-medium tracking-wider text-zinc-900 md:hidden">
-          EXPLORE NEW AND POPULAR STYLES
+        <div className="explore-container flex">
+            <div className="explore-layout">
+                <div className="side-text">EXPLORE NEW AND POPULAR STYLES</div>
+            </div>
+            <div className="explore-content">
+                {data.map((val: { image1: string; image2: string; image3: string; image4: string; image5: string }, index: number) => {
+                    return (
+                        <div key={index} className="explore-grid">
+                        <div className="featured-chair">
+                            <Image src={val.image1} alt="exp1" width={300} height={520} className="chair-image"/>
+                        </div>
+
+                        <div className="chair-grid">
+                           <div className="chair-item">
+                                <Image src={val.image2} alt="exp2" width={250} height={250} className="chair-image"/>
+                            </div>
+                            <div className="chair-item">
+                                <Image src={val.image3} alt="exp3" width={250} height={250} className="chair-image"/>
+                            </div>
+                            <div className="chair-item">
+                                <Image src={val.image4} alt="exp4" width={250} height={250} className="chair-image"/>
+                            </div>
+                            <div className="chair-item">
+                                <Image src={val.image5} alt="exp5" width={250} height={250} className="chair-image"/>
+                            </div> 
+
+                        </div>
+                    </div>
+                    )
+})}
+
+            </div>
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="w-full md:w-[48%]">
-            <Image
-              src="/03.jpg"
-              alt="Orange modern chair"
-              className="h-full w-full object-cover"
-              width={500}
-              height={500}
-              priority
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4 w-full md:w-[60%] lg:w-[48%]">
-            <div className="aspect-square">
-              <Image
-                src="/04.jpg"
-                alt="White tufted chair"
-                className="h-full w-full object-cover"
-                width={500}
-                height={500}
-              />
-            </div>
-            <div className="aspect-square">
-              <Image
-                src="/01.jpg"
-                alt="Gray upholstered chair"
-                className="h-full w-full object-cover"
-                width={500}
-                height={500}
-              />
-            </div>
-            <div className="aspect-square">
-              <Image
-                src="/06.jpg"
-                alt="Vintage white chair"
-                className="h-full w-full object-cover"
-                width={500}
-                height={500}
-              />
-            </div>
-            <div className="aspect-square">
-              <Image
-                src="/01.jpg"
-                alt="Vintage white chair duplicate"
-                className="h-full w-full object-cover"
-                width={500}
-                height={500}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+    </div>
   );
 }
+
+ 

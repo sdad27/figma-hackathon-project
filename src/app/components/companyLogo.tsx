@@ -1,13 +1,35 @@
 import React from "react";
 import Image from "next/image";
+import { client } from "@/sanity/lib/client";
 
-const CompanyLogo = () => {
+async function getData() {
+  const fetchData = await client.fetch(`*[_type == "companyLogos"]{
+  "imageUrl":image.asset->url
+}`);
+  return fetchData;
+}
+
+const CompanyLogo = async () => {
+  const data = await getData();
   return (
     <div className="w-full flex flex-wrap justify-center items-center gap-20 pt-14 px-4">
-      <div className="flex justify-center items-center">
-        <Image src="/Logo (3).png" alt="Zaphier Logo" width={85} height={87} />
-      </div>
-      <div className="flex justify-center items-center">
+      {
+        data.map((val: { imageUrl: string }, index: number) => {
+          return (
+            <div key={index} className="flex justify-center items-center">
+              <Image src={val.imageUrl} alt="Zaphier Logo" width={100} height={100} />
+            </div>
+          )
+        })
+      }
+    </div>
+  );
+};
+
+export default CompanyLogo;
+
+
+      {/* <div className="flex justify-center items-center">
         <Image
           src="/Logo (4).png"
           alt="Pipe Drive Logo"
@@ -49,9 +71,4 @@ const CompanyLogo = () => {
       </div>
       <div className="flex justify-center items-center">
         <Image src="/Logo (9).png" alt="Moz Logo" width={84} height={87} />
-      </div>
-    </div>
-  );
-};
-
-export default CompanyLogo;
+      </div> */}
